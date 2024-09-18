@@ -17,8 +17,7 @@ function resizeSlides(containerWidth) {
         i.style.width = `${containerWidth}px`
         i.style.height = `${containerWidth}px`
     }) 
-
-    
+    document.querySelector('.slider-row').style.width = `${containerWidth*4}px`
 }
 
 function renderDescription(counter) {
@@ -49,26 +48,9 @@ function changeCounter(counter) {
     pagination[counter].classList.add('dot-active')
 }
 
-                                                                                    // prev
-document.getElementById('prev').addEventListener('click', ()=> {
-    if(offset == 0) {
-        offset = -1500
-        counter = 3
-        changeCounter(counter)
-        renderDescription(counter)
-        sliderRow.style.transform = `translateX(${offset}px)`
-    } else {
-        offset += 500
-        counter--
-        changeCounter(counter)
-        renderDescription(counter)
-        sliderRow.style.transform = `translateX(${offset}px)`
-    }
-})
-                                                                                    // next
-document.getElementById('next').addEventListener('click', ()=> {
-    if(offset > -1500) {
-        offset -= 500
+function offsetsNext(containerWidth) {
+    if(offset > -containerWidth*3) {
+        offset -= containerWidth
         sliderRow.style.transform = `translateX(${offset}px)`
         counter++
         changeCounter(counter)
@@ -80,6 +62,30 @@ document.getElementById('next').addEventListener('click', ()=> {
         renderDescription(counter)
         sliderRow.style.transform = `translateX(${offset}px)`
     }
+}
+
+function offsetsPrev(containerWidth) {
+    if(offset == 0) {
+        offset = -containerWidth*3
+        counter = 3
+        changeCounter(counter)
+        renderDescription(counter)
+        sliderRow.style.transform = `translateX(${offset}px)`
+    } else {
+        offset += containerWidth
+        counter--
+        changeCounter(counter)
+        renderDescription(counter)
+        sliderRow.style.transform = `translateX(${offset}px)`
+    }
+}
+                                                                                    // prev
+document.getElementById('prev').addEventListener('click', ()=> {
+    offsetsPrev(containerWidth)
+})
+                                                                                    // next
+document.getElementById('next').addEventListener('click', ()=> {
+    offsetsNext(containerWidth)
 })
 
 //Табы по точкам
